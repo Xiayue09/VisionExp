@@ -1,0 +1,11 @@
+{
+  "right_size": 8, 
+  "left_sigma": 7.0, 
+  "right_sigma": 4.1, 
+  "right_mode": "high", 
+  "view_grayscale": 0, 
+  "left_mode": "low", 
+  "left_size": 13, 
+  "mixin_ratio": 0.65, 
+  "save_grayscale": 0
+}
