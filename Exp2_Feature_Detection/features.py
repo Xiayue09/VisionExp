@@ -581,7 +581,7 @@ class RatioFeatureMatcher(FeatureMatcher):
             m = np.argmin(de[n])
             d.trainIdx = int(m)
             f1 = de[n][m]
-            de[n][m] = 1000000
+            de[n][m] = float("inf")
             m = np.argmin(de[n])
             f2 = de[n][m]
             d.distance = f1/f2
