@@ -29,7 +29,6 @@ def imageBoundingBox(img, M):
     """
     #TODO 8
     #TODO-BLOCK-BEGIN
-    M /=M[2,2]
     height = img.shape[0]
     width = img.shape[1]
     dot1 = np.array([[0],[0],[1]])
@@ -40,10 +39,6 @@ def imageBoundingBox(img, M):
     dot2 = np.matmul(M,dot2)
     dot3 = np.matmul(M,dot3)
     dot4 = np.matmul(M,dot4)
-    dot1 /= dot1[2][0]
-    dot2 /= dot2[2][0]
-    dot3 /= dot3[2][0]
-    dot4 /= dot4[2][0]
 
     x = [dot1[0][0],dot2[0][0],dot3[0][0],dot4[0][0]]
     y = [dot1[1][0],dot2[1][0],dot3[1][0],dot4[1][0]]
@@ -51,8 +46,6 @@ def imageBoundingBox(img, M):
     minY = min(y)
     maxY = max(y)
     maxX = max(x)
-    maxX+=1
-    maxY+=1
 
     # raise Exception("TODO in blend.py not implemented")
     #TODO-BLOCK-END
@@ -74,6 +67,7 @@ def accumulateBlend(img, acc, M, blendWidth):
     # BEGIN TODO 10
     # Fill in this routine
     #TODO-BLOCK-BEGIN
+
     M /= M[2][2]
     minX, minY, maxX, maxY = imageBoundingBox(img, M)
     M = np.linalg.inv(M)
@@ -90,12 +84,12 @@ def accumulateBlend(img, acc, M, blendWidth):
             yy = int(round(xy[1][0]))
             if 0 <= xx < width:
                 if 0 <= yy < height:
+                    if (img[yy][xx]==np.array([0,0,0])).all():
+                        continue
                     if 0<width - xx <= blendWidth:
                         addweight = (width-xx)/blendWidth
-                    elif xx <= blendWidth:
+                    elif xx < blendWidth:
                         addweight = (xx+1) / blendWidth
-                    elif (img[yy][xx]==np.array([0,0,0])).all():
-                        continue
                     else:
                         addweight = 1
                     acc[h][j][3] += addweight
@@ -126,7 +120,6 @@ def normalizeBlend(acc):
                 b[h][w]/=tx
                 g[h][w]/=tx
                 r[h][w]/=tx
-
     img = cv2.merge([b, g, r])
     img = img.astype(np.uint8)
     # raise Exception("TODO in blend.py not implemented")
@@ -176,8 +169,6 @@ def getAccSize(ipv):
         minY = min([minY,minY1])
         maxX = max([maxX,maxX1])
         maxY = max([maxY,maxY1])
-        #width = maxX-minX
-
         #raise Exception("TODO in blend.py not implemented")
         #TODO-BLOCK-END
         # END TODO

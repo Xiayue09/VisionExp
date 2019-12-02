@@ -134,21 +134,21 @@ def alignPair(f1, f2, matches, m, nRANSAC, RANSACthresh):
     for i in range(nRANSAC):
         if m == eTranslate:
             simple = random.randint(0,len(matches)-1)
-            sm = matches[simple]
-            (a_x, a_y) = f1[sm.queryIdx].pt
-            (b_x, b_y) = f2[sm.trainIdx].pt
+            simple_match = matches[simple]
+            (a_x, a_y) = f1[simple_match.queryIdx].pt
+            (b_x, b_y) = f2[simple_match.trainIdx].pt
             trans = np.array([[1,0,b_x-a_x],[0,1,b_y-a_y],[0,0,1]])
         elif m == eHomography:
-            newmatches = []
+            new_matches = []
             simple1 = random.randint(0, len(matches)-1)
             simple2 = random.randint(0, len(matches)-1)
             simple3 = random.randint(0, len(matches)-1)
             simple4 = random.randint(0, len(matches)-1)
-            newmatches.append(matches[simple1])
-            newmatches.append(matches[simple2])
-            newmatches.append(matches[simple3])
-            newmatches.append(matches[simple4])
-            trans = computeHomography(f1,f2,newmatches)
+            new_matches.append(matches[simple1])
+            new_matches.append(matches[simple2])
+            new_matches.append(matches[simple3])
+            new_matches.append(matches[simple4])
+            trans = computeHomography(f1,f2,new_matches)
         else:
             raise Exception("Error: Invalid motion model.")
 
